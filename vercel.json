@@ -1,8 +1,14 @@
 {
   "version": 2,
   "builds": [
-    { "src": "quote-widget/api/**/*.js", "use": "@vercel/node" },
-    { "src": "quote-widget/public/**", "use": "@vercel/static" }
+    {
+      "src": "quote-widget/api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "quote-widget/public/**",
+      "use": "@vercel/static"
+    }
   ],
   "routes": [
     { "src": "^/api/get-quote/?$", "dest": "/quote-widget/api/get-quote.js" },
@@ -15,7 +21,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' https://*.notion.so https://notion.so https://www.notion.so https://*.notion.site;"
+          "value": "frame-ancestors 'self' *.notion.so *.notion.site"
         }
       ]
     }
