@@ -18,6 +18,7 @@
       },
       "continue": true
     },
+    { "src": "^/oembed\\.json$", "dest": "/quote-widget/api/oembed.js" },
     { "src": "^/api/get-quote/?$", "dest": "/quote-widget/api/get-quote.js" },
     { "src": "^/$", "dest": "/quote-widget/public/index.html" },
     { "src": "^(.*)$", "dest": "/quote-widget/public$1" }

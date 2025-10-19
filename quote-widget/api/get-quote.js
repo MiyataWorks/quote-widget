@@ -6,7 +6,7 @@ const databaseId = process.env.NOTION_DATABASE_ID;
 
 // APIリクエストに応じて実行されるメインの関数
 module.exports = async (req, res) => {
-    // どのドメインからでもアクセスできるようにCORSヘッダーを設定
+    // どのドメインからでもアクセスできるようにCORSヘッダーを設定（Notion埋め込み許可）
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Cache-Control', 'no-store');
