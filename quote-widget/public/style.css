@@ -1,0 +1,67 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    margin: 0;
+    color: white;
+    background-color: transparent;
+}
+
+#widget-container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-color: #222; /* 画像がない場合のデフォルト背景色 */
+    transition: background-image 0.5s ease-in-out; /* 背景が滑らかに切り替わるアニメーション */
+}
+
+/* 背景画像の上に重ねる半透明の黒いフィルター */
+#widget-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)); /* 下が濃くなるグラデーション */
+    z-index: 1;
+}
+
+/* テキストコンテンツはフィルターの上に表示 */
+#quote, .attribution {
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* 文字を読みやすくする影 */
+}
+
+#quote {
+    font-size: 1.5em;
+    font-weight: bold;
+    line-height: 1.4;
+    margin: 0 0 20px 0;
+}
+
+.attribution {
+    text-align: right;
+}
+
+#character {
+    font-size: 1em;
+    margin: 0;
+}
+#character::before {
+    content: '— ';
+}
+
+#title {
+    font-size: 0.9em;
+    opacity: 0.9;
+    margin: 4px 0 0 0;
+}
