@@ -14,7 +14,7 @@
     {
       "src": "^/(.*)$",
       "headers": {
-        "Content-Security-Policy": "frame-ancestors 'self' https://*.notion.so https://*.notion.site"
+        "Content-Security-Policy": "frame-ancestors 'self' https://*.notion.so https://www.notion.so https://notion.so https://*.notion.site https://www.notion.site https://notion.site"
       },
       "continue": true
     },
