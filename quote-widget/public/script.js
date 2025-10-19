@@ -5,7 +5,10 @@ const characterEl = document.getElementById('character');
 const titleEl = document.getElementById('title');
 
 // データを取得するAPIのエンドポイント
-const API_ENDPOINT = '/api/get-quote';
+// 外部サイトへ埋め込む際に相対パスだと404になるため、絶対URLを許容
+const API_ENDPOINT = (typeof window !== 'undefined' && window.__NOTION_QUOTE_API__)
+  ? window.__NOTION_QUOTE_API__
+  : '/api/get-quote';
 
 // 名言を取得して表示を更新する非同期関数
 async function fetchAndDisplayQuote() {
