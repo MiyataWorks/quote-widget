@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "quote-widget/api/**/*.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "^/api/get-quote$", "dest": "/quote-widget/api/get-quote.js" },
+    { "src": "^/$", "dest": "/quote-widget/public/index.html" },
+    { "src": "^(.*)$", "dest": "/quote-widget/public$1" }
+  ]
+}
