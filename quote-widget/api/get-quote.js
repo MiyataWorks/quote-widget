@@ -9,6 +9,19 @@ module.exports = async (req, res) => {
     // どのドメインからでもアクセスできるようにCORSヘッダーを設定
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Cache-Control', 'no-store');
+
+    // デバッグ用: /api/get-quote?debug=1 で環境変数の有無だけ確認できる
+    const debugRequested = req?.query && (req.query.debug === '1' || req.query.debug === 'true');
+    if (debugRequested) {
+        return res.status(200).json({
+            ok: true,
+            env: {
+                NOTION_API_KEY: Boolean(process.env.NOTION_API_KEY),
+                NOTION_DATABASE_ID: Boolean(databaseId),
+            },
+        });
+    }
 
     if (!databaseId || !process.env.NOTION_API_KEY) {
         return res.status(500).json({ error: 'Environment variables NOTION_API_KEY and NOTION_DATABASE_ID must be set.' });
@@ -54,7 +67,12 @@ module.exports = async (req, res) => {
         res.status(200).json(quoteData);
 
     } catch (error) {
-        console.error('Error fetching from Notion API:', error.body || error);
-        res.status(500).json({ error: 'Failed to fetch data from Notion API.' });
+        const detail = error?.body || { message: error?.message || String(error) };
+        console.error('Error fetching from Notion API:', detail);
+        res.status(500).json({
+            error: 'Failed to fetch data from Notion API.',
+            code: detail.code,
+            message: detail.message,
+        });
     }
 };
