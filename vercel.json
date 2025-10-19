@@ -11,19 +11,15 @@
     }
   ],
   "routes": [
+    {
+      "src": "^/(.*)$",
+      "headers": {
+        "Content-Security-Policy": "frame-ancestors 'self' https://*.notion.so https://*.notion.site"
+      },
+      "continue": true
+    },
     { "src": "^/api/get-quote/?$", "dest": "/quote-widget/api/get-quote.js" },
     { "src": "^/$", "dest": "/quote-widget/public/index.html" },
     { "src": "^(.*)$", "dest": "/quote-widget/public$1" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "frame-ancestors 'self' *.notion.so *.notion.site"
-        }
-      ]
-    }
   ]
 }
