@@ -4,6 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notion Quote Widget</title>
+    
+    <!-- Open Graph: Notionのリンクプレビュー/埋め込み対策 -->
+    <meta property="og:title" content="Notion Quote Widget">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://quote-widget-xi.vercel.app/">
+    <meta property="og:description" content="Notionデータベースから名言を表示するシンプルなウィジェット">
+    <!-- 画像が無いとカードが小さくなるためダミーでも指定しておくと吉（任意） -->
+    <meta property="og:image" content="https://quote-widget-xi.vercel.app/og-image.png">
+
+    <!-- Twitter Card（NotionはOpenGraphを主に参照するが保険） -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Notion Quote Widget">
+    <meta name="twitter:description" content="Notionデータベースから名言を表示するシンプルなウィジェット">
+    <meta name="twitter:image" content="https://quote-widget-xi.vercel.app/og-image.png">
+
+    <!-- oEmbed discovery: Notion/Embedlyが埋め込み可否を判断するため -->
+    <link rel="alternate" type="application/json+oembed"
+          href="https://quote-widget-xi.vercel.app/oembed.json?url=https%3A%2F%2Fquote-widget-xi.vercel.app%2F"
+          title="Notion Quote Widget">
+
+    <!-- 埋め込み時にAPIの絶対URLを上書きできるよう、クエリ param api= を反映（任意） -->
+    <script>
+      (function () {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var api = params.get('api');
+          if (api) {
+            window.__NOTION_QUOTE_API__ = api;
+          }
+        } catch (_) {
+          // noop
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
