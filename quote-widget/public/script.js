@@ -14,19 +14,28 @@ const API_ENDPOINT = (typeof window !== 'undefined' && window.__NOTION_QUOTE_API
 async function fetchAndDisplayQuote() {
     try {
         const response = await fetch(API_ENDPOINT);
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`API Error: ${errorData.error || response.statusText}`);
+        // サーバが404等でも本文に有効なJSONが含まれるケースに備え、先に本文を読む
+        let data = null;
+        try {
+            data = await response.json();
+        } catch (_) {
+            data = null;
         }
-        const data = await response.json();
+
+        // ステータスがエラーでも、期待するフィールドを含むJSONであれば続行する
+        const hasRenderableData = !!(data && (data.quote || data.character || data.title));
+        if (!response.ok && !hasRenderableData) {
+            const message = (data && data.error) ? data.error : response.statusText;
+            throw new Error(`API Error: ${message}`);
+        }
 
         // 取得したデータでHTMLを書き換える
-        quoteEl.textContent = data.quote || ' ';
-        characterEl.textContent = data.character || ' ';
-        titleEl.textContent = data.title ? `『${data.title}』` : ' ';
+        quoteEl.textContent = (data && data.quote) || ' ';
+        characterEl.textContent = (data && data.character) || ' ';
+        titleEl.textContent = (data && data.title) ? `『${data.title}』` : ' ';
 
         // 画像URLが存在すれば、背景に設定
-        if (data.imageUrl) {
+        if (data && data.imageUrl) {
             widgetContainer.style.backgroundImage = `url(${data.imageUrl})`;
         } else {
             // 画像がない場合は、背景画像をなくし、CSSで設定した背景色にする
