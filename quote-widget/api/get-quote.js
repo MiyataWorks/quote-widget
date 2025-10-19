@@ -10,12 +10,6 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Cache-Control', 'no-store');
-    // Notion からの iframe 埋め込みを許可するための CSP (frame-ancestors)
-    // 注意: 静的ファイルの配信は vercel.json の headers セクションで統一設定
-    res.setHeader(
-        'Content-Security-Policy',
-        "frame-ancestors 'self' https://*.notion.so https://notion.so https://www.notion.so https://*.notion.site;"
-    );
 
     // デバッグ用: /api/get-quote?debug=1 で環境変数の有無だけ確認できる
     const debugRequested = req?.query && (req.query.debug === '1' || req.query.debug === 'true');
