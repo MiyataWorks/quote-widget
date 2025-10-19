@@ -137,3 +137,23 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Notion integration and secrets
+.notion/
+.notionrc
+notion.json
+notion.config.*
+notion-*.json
+
+# Local secrets and keys
+secrets/
+secret/
+*.secret
+*.pem
+*.key
+*.p12
+*.pfx
+
+# direnv
+.envrc
+.direnv/
