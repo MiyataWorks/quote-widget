@@ -19,9 +19,9 @@
     <meta name="twitter:description" content="Notionデータベースから名言を表示するシンプルなウィジェット">
     <meta name="twitter:image" content="https://quote-widget-xi.vercel.app/og-image.png">
 
-    <!-- oEmbed discovery: Notion/Embedlyが埋め込み可否を判断するため -->
+    <!-- oEmbed discovery: 相対パスで自身のドメインに追従させる -->
     <link rel="alternate" type="application/json+oembed"
-          href="https://quote-widget-xi.vercel.app/oembed.json?url=https%3A%2F%2Fquote-widget-xi.vercel.app%2F"
+          href="/oembed.json"
           title="Notion Quote Widget">
 
     <!-- 埋め込み時にAPIの絶対URLを上書きできるよう、クエリ param api= を反映（任意） -->
