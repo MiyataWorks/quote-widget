@@ -12,6 +12,11 @@ const API_ENDPOINT = (typeof window !== 'undefined' && window.__NOTION_QUOTE_API
 
 // 名言を取得して表示を更新する非同期関数
 async function fetchAndDisplayQuote() {
+    // 必要なDOMが存在しない場合は処理を中断（埋め込み先の不整合対策）
+    if (!widgetContainer || !quoteEl || !characterEl || !titleEl) {
+        console.error('Required DOM elements not found.');
+        return;
+    }
     try {
         const response = await fetch(API_ENDPOINT);
         // サーバが404等でも本文に有効なJSONが含まれるケースに備え、先に本文を読む
@@ -53,5 +58,6 @@ async function fetchAndDisplayQuote() {
 // ページが読み込まれた時にまず1回実行
 fetchAndDisplayQuote();
 
-// 1時間（= 3,600,000ミリ秒）ごとに、fetchAndDisplayQuote関数を繰り返し実行
-setInterval(fetchAndDisplayQuote, 3600000);
+// 10分（= 600,000ミリ秒）ごとに、fetchAndDisplayQuote関数を繰り返し実行
+const RELOAD_INTERVAL_MS = 10 * 60 * 1000;
+setInterval(fetchAndDisplayQuote, RELOAD_INTERVAL_MS);
