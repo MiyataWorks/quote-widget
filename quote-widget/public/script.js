@@ -54,4 +54,4 @@ async function fetchAndDisplayQuote() {
 fetchAndDisplayQuote();
 
 // 1時間（= 3,600,000ミリ秒）ごとに、fetchAndDisplayQuote関数を繰り返し実行
-setInterval(fetchAndDisplayQuote, 600000);
+setInterval(fetchAndDisplayQuote, 3600000);
