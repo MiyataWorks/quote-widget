@@ -1,9 +1,5 @@
 const { Client } = require('@notionhq/client');
 
-// Vercelの環境変数からAPIキーとデータベースIDを読み込む
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const databaseId = process.env.NOTION_DATABASE_ID;
-
 // APIリクエストに応じて実行されるメインの関数
 module.exports = async (req, res) => {
     // どのドメインからでもアクセスできるようにCORSヘッダーを設定（Notion埋め込み許可）
@@ -13,21 +9,25 @@ module.exports = async (req, res) => {
 
     // デバッグ用: /api/get-quote?debug=1 で環境変数の有無だけ確認できる
     const debugRequested = req?.query && (req.query.debug === '1' || req.query.debug === 'true');
+    const notionApiKey = process.env.NOTION_API_KEY;
+    const databaseId = process.env.NOTION_DATABASE_ID;
     if (debugRequested) {
         return res.status(200).json({
             ok: true,
             env: {
-                NOTION_API_KEY: Boolean(process.env.NOTION_API_KEY),
+                NOTION_API_KEY: Boolean(notionApiKey),
                 NOTION_DATABASE_ID: Boolean(databaseId),
             },
         });
     }
 
-    if (!databaseId || !process.env.NOTION_API_KEY) {
+    if (!databaseId || !notionApiKey) {
         return res.status(500).json({ error: 'Environment variables NOTION_API_KEY and NOTION_DATABASE_ID must be set.' });
     }
 
     try {
+        // Notion クライアントを初期化
+        const notion = new Client({ auth: notionApiKey });
         // 全件取得のためのページネーション処理
         const allResults = [];
         let hasMore = true;
@@ -58,9 +58,9 @@ module.exports = async (req, res) => {
 
         // 返却するデータを整形
         const quoteData = {
-            quote: randomEntry.properties['名言']?.title[0]?.plain_text || '',
-            character: randomEntry.properties['キャラクター']?.rich_text[0]?.plain_text || '',
-            title: randomEntry.properties['作品名']?.rich_text[0]?.plain_text || '',
+            quote: randomEntry.properties['名言']?.title?.[0]?.plain_text || '',
+            character: randomEntry.properties['キャラクター']?.rich_text?.[0]?.plain_text || '',
+            title: randomEntry.properties['作品名']?.rich_text?.[0]?.plain_text || '',
             imageUrl: imageUrl,
         };
 
